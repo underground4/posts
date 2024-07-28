@@ -21,11 +21,14 @@ class ProductController extends CoreController
                 'prefix' => static::$routePrefix,
             ],
             function () {
-                Route::get('', [self::class, 'index']);
+                Route::get('', [self::class, 'index'])
+                    ->name('product.index');
 
-                Route::post('', [self::class, 'store']);
+                Route::post('', [self::class, 'store'])
+                    ->name('product.store');
 
-                Route::get('/{productId}', [self::class, 'show']);
+                Route::get('/{productId}', [self::class, 'show'])
+                    ->name('product.show');
             }
         );
     }
