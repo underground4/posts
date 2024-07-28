@@ -11,10 +11,18 @@ use App\Models\Product\ProductImage;
 
 class ProductService
 {
-    public function getProducts()
+    public function getProducts($sort, $relation, $page = 1, $perPage = 10)
     {
-        $products = Product::query()
-            ->with('product_images')
+        $sorting = ProductSortingService::getSorting();
+
+        $productsQuery = $this->getProductsQuery();
+
+        $productsQuery = $productsQuery->orderBy($sorting['column'], $sorting['direction']);
+
+        $products = $productsQuery
+            ->with('main_image')
+            ->limit($perPage)
+            ->offset(($page - 1) * $perPage)
             ->get();
 
         return $products;
@@ -56,5 +64,15 @@ class ProductService
         }
 
         return $product;
+    }
+
+    public function getProductCount()
+    {
+        return $this->getProductsQuery()->count();
+    }
+
+    public function getProductsQuery()
+    {
+        return Product::query();
     }
 }

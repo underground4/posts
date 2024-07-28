@@ -12,7 +12,7 @@ class ProductStoreRequest extends FormRequest
             'name' => 'required|string|max:200',
             'description' => 'required|string|max:1000',
             'price' => 'required',
-            'images' => 'array'
+            'images' => 'array|max:3'
         ];
     }
 
@@ -24,6 +24,7 @@ class ProductStoreRequest extends FormRequest
             'description.required' => 'Описание обязательное поле',
             'description.max' => 'Превышен лимит символов в описании продукта',
             'price.required' => 'Цена обязательное поле',
+            'images.max' => 'Превышен лимит загружаемых фотографий',
         ];
     }
 }

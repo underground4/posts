@@ -22,10 +22,13 @@ return new class extends Migration
                 ->comment('Описание товара');
 
             $table->decimal('price', 10, 2)
+                ->index()
                 ->default(0)
                 ->comment('Цена продукта');
 
             $table->timestamps();
+
+            $table->index(['price', 'created_at']);
         });
     }
 

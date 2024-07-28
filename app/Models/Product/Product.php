@@ -17,4 +17,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
+
+    public function main_image()
+    {
+        return $this->hasOne(ProductImage::class)->where('sort', 1);
+    }
 }

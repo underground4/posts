@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API\V1\Product;
 
 use App\Http\Controllers\CoreController;
 use App\Http\Requests\Product\ProductStoreRequest;
+use App\Http\Resources\Product\ProductResource;
 use App\Service\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Route;
 
 class ProductController extends CoreController
@@ -28,11 +30,20 @@ class ProductController extends CoreController
         );
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = (new ProductService())->getProducts();
+        $page = $request->input('page') ?? 1;
+        $perPage = 10;
+        $sort = $request->input('sort') ?? [];
+        $relation = $request->input('relation') ?? [];
 
-        return $this->responseSuccess($products);
+        $countProducts = (new ProductService())->getProductCount();
+        $products = (new ProductService())->getProducts($sort, $relation, $page, $perPage);
+
+        $products = ProductResource::collection($products);
+        $productsPaginated = new LengthAwarePaginator($products, $countProducts, $perPage, $page);
+
+        return $this->responseSuccess($productsPaginated);
     }
 
     public function show($productId)
