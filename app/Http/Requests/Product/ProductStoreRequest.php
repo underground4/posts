@@ -12,7 +12,7 @@ class ProductStoreRequest extends FormRequest
             'name' => 'required|string|max:200',
             'description' => 'required|string|max:1000',
             'price' => 'required',
-            'links' => 'array'
+            'images' => 'array'
         ];
     }
 

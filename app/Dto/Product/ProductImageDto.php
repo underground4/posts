@@ -2,12 +2,12 @@
 
 namespace App\Dto\Product;
 
-class ProductStoreDto
+class ProductImageDto
 {
     public function __construct(
-        public string $name,
-        public string $description,
-        public string $price,
+        public int $product_id,
+        public string $path,
+        public int $sort,
     )
     {
     }

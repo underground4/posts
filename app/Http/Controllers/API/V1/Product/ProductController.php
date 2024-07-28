@@ -44,8 +44,8 @@ class ProductController extends CoreController
 
     public function store(ProductStoreRequest $request)
     {
+        $product = (new ProductService())->createProduct($request);
 
-
-        return $this->responseSuccess(1);
+        return $this->responseSuccess($product->id);
     }
 }
