@@ -34,11 +34,10 @@ class ProductController extends CoreController
     {
         $page = $request->input('page') ?? 1;
         $perPage = 10;
-        $sort = $request->input('sort') ?? [];
         $relation = $request->input('relation') ?? [];
 
         $countProducts = (new ProductService())->getProductCount();
-        $products = (new ProductService())->getProducts($sort, $relation, $page, $perPage);
+        $products = (new ProductService())->getProducts($relation, $page, $perPage);
 
         $products = ProductResource::collection($products);
         $productsPaginated = new LengthAwarePaginator($products, $countProducts, $perPage, $page);
@@ -50,7 +49,7 @@ class ProductController extends CoreController
     {
         $product = (new ProductService())->getProductById($productId);
 
-        return $this->responseSuccess($product);
+        return $this->responseSuccess(ProductResource::make($product));
     }
 
     public function store(ProductStoreRequest $request)

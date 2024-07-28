@@ -11,7 +11,7 @@ use App\Models\Product\ProductImage;
 
 class ProductService
 {
-    public function getProducts($sort, $relation, $page = 1, $perPage = 10)
+    public function getProducts($relation, $page = 1, $perPage = 10)
     {
         $sorting = ProductSortingService::getSorting();
 
@@ -30,7 +30,9 @@ class ProductService
 
     public function getProductById($productId)
     {
-        $product = Product::query()
+        $product = Product::query();
+
+        $product = $product->with('main_image')
             ->where('id', $productId)
             ->first();
 
